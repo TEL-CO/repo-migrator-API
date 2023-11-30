@@ -1,0 +1,6 @@
+fastapi==0.75.0  # Replace with the latest version or the version you are using
+uvicorn==0.17.6  # Uvicorn is commonly used for serving FastAPI applications
+requests==2.27.1  # Replace with the latest version or the version you are using
+GitPython==3.1.27  # Replace with the latest version or the version you are using
+pydantic==1.9.0  # Replace with the latest version or the version you are using
+python-dotenv==0.20.0  # Optional, if you are using .env files
