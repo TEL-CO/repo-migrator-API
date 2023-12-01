@@ -169,7 +169,6 @@ async def move_repository(source_platform: str, target_platform: str, repo_obj: 
             repo_obj.source_repo_url, 
             target_platform, 
             repo_obj.repo_name, 
-            repo_obj.target_token, 
             repo_obj.organization, 
             repo_obj.project
         )
