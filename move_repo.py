@@ -119,7 +119,7 @@ class RepoMigrator:
         # Clean up the local repository directory
         if os.path.exists(local_dir):
             shutil.rmtree(local_dir)
-            
+
         # Create a new repository on the target platform
         if target_platform.lower() == "github":
             new_repo_url = self.github.create_repository(repo_name, self.github_token)
@@ -139,7 +139,7 @@ class RepoMigrator:
 
         # Push all branches and tags
         try:
-            repo.git.push('--all')
+            #repo.git.push('--all')
             repo.git.push('--tags')
         except GitCommandError as e:
             raise Exception(f"Failed to push to the target repository: {e}")
