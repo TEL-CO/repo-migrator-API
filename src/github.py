@@ -52,7 +52,7 @@ class GitHub:
                     return next_page_url
         return None
 
-    def create_repository(self, repo_name, token, organization):
+    def create_repository(self, repo_name, token, organization="TEL-CO"):
         url = f"https://api.github.com/orgs/{organization}/repos" if organization else "https://api.github.com/user/repos"
         headers = {
             'Authorization': f'token {token}',
