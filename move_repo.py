@@ -1,4 +1,6 @@
 from fastapi import FastAPI, HTTPException, Body, Query, Request, Response
+from fastapi.middleware.cors import CORSMiddleware
+
 from typing import Any, Optional
 from git import Repo, GitCommandError
 from pydantic import BaseModel
@@ -17,6 +19,17 @@ import os
 import shutil
 
 app = FastAPI()
+origins = [
+    "*",
+]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 load_dotenv()
 Base = declarative_base()
 
