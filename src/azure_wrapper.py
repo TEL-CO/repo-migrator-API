@@ -29,7 +29,7 @@ class Azure:
             repos = response.json()['value']
             all_repos.extend(repos)
 
-        return all_repos
+        return {"repositories": all_repos}
 
     def create_repository(self, project, token, repo_name):
         url = f"https://dev.azure.com/{self.organization}/{project}/_apis/git/repositories?api-version=6.0"
