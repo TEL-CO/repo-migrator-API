@@ -60,6 +60,12 @@ class RepositoryObject(BaseModel):
 def save_repositories_decorator(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
+        # Check if 'indexing' parameter is provided and is True
+        indexing = kwargs.get('indexing', False)
+        if not indexing:
+            return func(*args, **kwargs)
+
+        # Proceed with the original functionality if indexing is True
         response = func(*args, **kwargs)
         repositories = response.get('repositories', []) if isinstance(response, dict) else []
 
