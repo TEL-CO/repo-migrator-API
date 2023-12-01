@@ -140,7 +140,7 @@ class RepoMigrator:
         # Push all branches and tags
         try:
             #repo.git.push('--all')
-            repo.git.push('--tags')
+            repo.git.push()
         except GitCommandError as e:
             raise Exception(f"Failed to push to the target repository: {e}")
 
