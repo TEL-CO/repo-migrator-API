@@ -52,7 +52,6 @@ class Repository(Base):
 class RepositoryObject(BaseModel):
     repo_name: str
     source_repo_url: str
-    target_token: str
     organization: str = None
     project: str = None
 
