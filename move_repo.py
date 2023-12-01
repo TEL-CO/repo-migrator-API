@@ -17,6 +17,7 @@ import src.azure_wrapper as Azure
 import requests
 import os
 import shutil
+import subprocess
 
 app = FastAPI()
 origins = [
@@ -116,6 +117,10 @@ class RepoMigrator:
     def move_repository(self, source_repo_url, target_platform, repo_name, project=''):
         local_dir = f"/tmp/{repo_name}"
         
+
+
+
+
         # Create a new repository on the target platform
         if target_platform.lower() == "github":
             new_repo_url = self.github.create_repository(repo_name, self.github_token)
@@ -126,6 +131,7 @@ class RepoMigrator:
         else:
             raise ValueError("Unsupported target platform")
 
+        subprocess.run(["git", "config", "--global", "credential.helper", "cache --timeout=300"])
         # Clone the repository from the source
         repo = Repo.clone_from(source_repo_url, local_dir)
 
