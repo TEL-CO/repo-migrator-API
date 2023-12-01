@@ -119,11 +119,11 @@ class RepoMigrator:
         
         # Create a new repository on the target platform
         if target_platform.lower() == "github":
-            new_repo_url = self.create_github_repository(repo_name, self.github_token)
+            new_repo_url = self.github.create_repository(repo_name, self.github_token)
         elif target_platform.lower() == "azure":
-            new_repo_url = self.create_azure_repository(repo_name, self.azure_token, project)
+            new_repo_url = self.azure.create_repository(repo_name, self.azure_token, project)
         elif target_platform.lower() == "gitlab":
-            new_repo_url = self.create_gitlab_repository(repo_name, self.gitlab_token)
+            new_repo_url = self.gitlab.create_repository(repo_name, self.gitlab_token)
         else:
             raise ValueError("Unsupported target platform")
 
