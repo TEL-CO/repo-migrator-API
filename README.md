@@ -88,7 +88,7 @@ GET /search-repositories: Search through the local repository database.
 
 License
 
-Distributed under the MIT License. See LICENSE for more information.
+Distributed under the GPL License. See LICENSE for more information.
 
 Contact
 web@tlco.it
