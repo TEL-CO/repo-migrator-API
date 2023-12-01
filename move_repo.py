@@ -116,7 +116,10 @@ class RepoMigrator:
 
     def move_repository(self, source_repo_url, target_platform, repo_name, project=''):
         local_dir = f"/tmp/{repo_name}"
-        
+        # Clean up the local repository directory
+        if os.path.exists(local_dir):
+            shutil.rmtree(local_dir)
+            
         # Create a new repository on the target platform
         if target_platform.lower() == "github":
             new_repo_url = self.github.create_repository(repo_name, self.github_token)
