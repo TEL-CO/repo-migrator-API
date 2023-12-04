@@ -60,7 +60,7 @@ class GitHub:
         }
         data = {
             'name': repo_name,
-            'private': False  # Set to True if you want to create a private repository
+            'private': True  # Set to True if you want to create a private repository
         }
         response = requests.post(url, json=data, headers=headers)
         response.raise_for_status()

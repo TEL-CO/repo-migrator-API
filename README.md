@@ -46,13 +46,13 @@ Set up environment variables in a .env file based on the .env.example provided.
 
 - GITLAB_TOKEN
 
-- GITHUB_TOKEN
+- ORG_GITHUB_TOKEN
 
 - AZURE_TOKEN
 
 - GITLAB_GROUP_ID
 
-- GITHUB_ORGANIZATION
+- NAME_GITHUB_ORGANIZATION
 
 - AZURE_ORGANIZATION
 

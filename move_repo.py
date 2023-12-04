@@ -94,10 +94,10 @@ def save_repositories_decorator(func):
 class RepoMigrator:
     def __init__(self):
         self.gitlab_token = os.getenv('GITLAB_TOKEN')
-        self.github_token = os.getenv('GITHUB_TOKEN')
+        self.github_token = os.getenv('ORG_GITHUB_TOKEN')
         self.azure_token = os.getenv('AZURE_TOKEN')
         self.gitlab_group_id = os.getenv('GITLAB_GROUP_ID')
-        self.github_organization = os.getenv('GITHUB_ORGANIZATION')
+        self.github_organization = os.getenv('NAME_GITHUB_ORGANIZATION')
         self.azure_organization = os.getenv('AZURE_ORGANIZATION')
         self.github = GitHub.GitHub(self.github_token)
         self.gitlab = GitLab.GitLab(self.gitlab_token)
@@ -130,7 +130,7 @@ class RepoMigrator:
         else:
             raise ValueError("Unsupported target platform")
 
-        subprocess.run(["git", "config", "--global", "credential.helper", "cache --timeout=300"])
+        subprocess.run(["git", "config", "--global", "credential.helper", "cache --timeout=600"])
         # Clone the repository from the source
         repo = Repo.clone_from(source_repo_url, local_dir, mirror=True)
 
