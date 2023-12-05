@@ -24,11 +24,12 @@ class Azure:
 
         for project in projects:
             url = f"{self.base_url}/{project['id']}/_apis/git/repositories?api-version=7.1-preview.1"
+            print(url)
             response = requests.get(url, headers=self.auth_header)
             response.raise_for_status()
             repos = response.json()['value']
             all_repos.extend(repos)
-
+        
         return {"repositories": all_repos}
 
     def create_repository(self, project, token, repo_name):

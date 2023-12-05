@@ -15,8 +15,8 @@ class GitLab:
         last_repository_id = 0
 
         groups_to_process = [group_id] + [subgroup['id'] for subgroup in self.get_subgroups(group_id)]
-        print(groups_to_process)
         for group in groups_to_process:
+            last_repository_id = 0
             if pagination is True:  # Fetch only the first page with pagination links
                 self.url = (f"{self.base_url}/groups/{group}/projects?per_page={per_page}"
                             f"&order_by={order_by}&sort={sort}&id_after={last_repository_id}")
@@ -35,7 +35,7 @@ class GitLab:
                 while True:
                     self.url = (f"{self.base_url}/groups/{group}/projects?per_page={per_page}"
                                 f"&order_by={order_by}&sort={sort}&id_after={last_repository_id}")
-
+                    print(self.url)
                     response = requests.get(self.url, headers=self.headers)
                     if response.status_code == 200:
                         repositories = response.json()
@@ -49,7 +49,8 @@ class GitLab:
                         break
 
         return {"repositories": all_repositories}
-
+    
+    #@todo make it recursive
     def get_subgroups(self, group_id):
         subgroups = []
         url = f"{self.base_url}/groups/{group_id}/subgroups?per_page=100"  # Adjust per_page as needed

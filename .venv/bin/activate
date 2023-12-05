@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/home/adminmatto/progetti/rd/move-repo/.venv"
+VIRTUAL_ENV="/gianni/repo-migrator-API/.venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
