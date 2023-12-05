@@ -15,7 +15,7 @@ class GitLab:
         last_repository_id = 0
 
         groups_to_process = [group_id] + [subgroup['id'] for subgroup in self.get_subgroups(group_id)]
-
+        print(groups_to_process)
         for group in groups_to_process:
             if pagination is True:  # Fetch only the first page with pagination links
                 self.url = (f"{self.base_url}/groups/{group}/projects?per_page={per_page}"
