@@ -14,37 +14,55 @@ class GitLab:
         all_links = []
         last_repository_id = 0
 
-        if pagination is True:  # Fetch only the first page with pagination links
-            self.url = (f"{self.base_url}/groups/{group_id}/projects?per_page={per_page}"
-                        f"&order_by={order_by}&sort={sort}&id_after={last_repository_id}")
+        groups_to_process = [group_id] + [subgroup['id'] for subgroup in self.get_subgroups(group_id)]
 
-            response = requests.get(self.url, headers=self.headers)
-            if response.status_code == 200:
-                all_repositories = response.json()
-                link_header = response.headers.get('link', None)
-                all_links = self.convert_links_to_json_array(link_header)
-            else:
-                print(f"Failed to fetch repositories: {response.status_code}")
-            return {"repositories" : all_repositories, "headers" : all_links }
-
-        else:  # Fetch all repositories without pagination
-            while True:
-                self.url = (f"{self.base_url}/groups/{group_id}/projects?per_page={per_page}"
+        for group in groups_to_process:
+            if pagination is True:  # Fetch only the first page with pagination links
+                self.url = (f"{self.base_url}/groups/{group}/projects?per_page={per_page}"
                             f"&order_by={order_by}&sort={sort}&id_after={last_repository_id}")
 
                 response = requests.get(self.url, headers=self.headers)
                 if response.status_code == 200:
                     repositories = response.json()
-                    if not repositories:
-                        break  # Exit the loop if no more repositories are returned
-
                     all_repositories.extend(repositories)
-                    last_repository_id = repositories[-1]['id']
+                    link_header = response.headers.get('link', None)
+                    all_links = self.convert_links_to_json_array(link_header)
                 else:
                     print(f"Failed to fetch repositories: {response.status_code}")
-                    break
-            return {"repositories" : all_repositories }
+                return {"repositories": all_repositories, "headers": all_links}
 
+            else:  # Fetch all repositories without pagination
+                while True:
+                    self.url = (f"{self.base_url}/groups/{group}/projects?per_page={per_page}"
+                                f"&order_by={order_by}&sort={sort}&id_after={last_repository_id}")
+
+                    response = requests.get(self.url, headers=self.headers)
+                    if response.status_code == 200:
+                        repositories = response.json()
+                        if not repositories:
+                            break  # Exit the loop if no more repositories are returned
+
+                        all_repositories.extend(repositories)
+                        last_repository_id = repositories[-1]['id']
+                    else:
+                        print(f"Failed to fetch repositories: {response.status_code}")
+                        break
+
+        return {"repositories": all_repositories}
+
+    def get_subgroups(self, group_id):
+        subgroups = []
+        url = f"{self.base_url}/groups/{group_id}/subgroups?per_page=100"  # Adjust per_page as needed
+        while url:
+            response = requests.get(url, headers=self.headers)
+            if response.status_code == 200:
+                subgroups.extend(response.json())
+                url = self.extract_next_page_url(response.headers.get('link', None))
+            else:
+                print(f"Failed to fetch subgroups: {response.status_code}")
+                break
+        return subgroups
+    
     def extract_next_page_url(self, link_header):
         if link_header:
             links = link_header.split(',')
